@@ -9,3 +9,8 @@ console.log(valida_cpf[0])
 let numero_conta = 1
 
 numero_conta++
+
+
+const lista_formatada = lista.map(e => `Nome: ${e.Nome}, CPF: ${e.CPF}, Data de nascimento: rua 11, Endereço: ${e.endereco}`).join('\n')
+
+console.log(`${lista_formatada.toString()}`)

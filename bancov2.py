@@ -47,7 +47,7 @@ def Deposito(valor, saldo, extrato, /):
 
 def criarUsuario(**cliente):
 
-    print(f"Cliente {cliente['nome']} criado com sucesso!")
+    print(f"\nCliente {cliente['nome']} criado com sucesso!")
     pessoas.append(cliente)
     # print(pessoas)
 
@@ -55,7 +55,7 @@ def criarUsuario(**cliente):
 def mostrarUsuarios():
 
     if pessoas != []:
-        print('Contas cadastradas: ')
+        print('Usuários cadastrados: ')
         for i, pessoa in enumerate(pessoas):
             num_cliente = i+1
 
@@ -95,8 +95,11 @@ def criarConta(agencia, numero_conta, pessoas):
 def vizualisar_contas(lista_contas):
     tamanhoLista = len(lista_contas)
     # print(tamanhoLista)
+    texto = 'Contas cadastradas: \n'
+    print(texto)
     if tamanhoLista == 0:
-        print('n tem conta ainda')
+        texto = 'Não existem contas cadastradas.'
+        print(texto)
     else:
         for conta in lista_contas:
             print(
@@ -109,10 +112,16 @@ def exibirUsuarioFiltrado(cpf):
 
 
 def exibirUsuariosFormatados(lista_pessoas):
-    for i, pessoa in enumerate(lista_pessoas):
-        num_cliente = i+1
-        print(
-            f"Nome: {pessoa['nome']}, CPF: {pessoa['cpf']}, Data de nascimento: {pessoa['data_nascimento']}, Endereço: {pessoa['endereco']}")
+    lista = [pessoa for pessoa in lista_pessoas]
+    lista_formatada = []
+    for pessoa in lista_pessoas:
+        pessoa_formatada = f"Nome: {pessoa['nome']}, CPF: {pessoa['cpf']}, Data de nascimento: {pessoa['data_nascimento']}, Endereço: {pessoa['endereco']}"
+        lista_formatada.append(pessoa_formatada)
+    # formatado = ', '.join(lista)
+
+    return '\n'.join(lista_formatada)
+    # print(
+    #     f"Nome: {pessoa['nome']}, CPF: {pessoa['cpf']}, Data de nascimento: {pessoa['data_nascimento']}, Endereço: {pessoa['endereco']}")
 
 
 contas = []
@@ -184,7 +193,7 @@ def main():
                 print('Não existem usuários cadastrados.')
             else:
                 print(f'Usuários cadastrados:')
-                exibirUsuariosFormatados(pessoas)
+                print(exibirUsuariosFormatados(pessoas))
                 cpf = str(input('Digite o CPF da pessoa que deseja encontrar: '))
                 exibirUsuarioFiltrado(cpf)
 

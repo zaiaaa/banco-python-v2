@@ -33,8 +33,6 @@ def Saque(*, saldo, valor, numero_saques, extrato, limite, limite_saques):
 
 def Deposito(valor, saldo, extrato, /):
     if valor > 0:
-        # global saldo
-        # global extrato
         novoSaldo = saldo + valor
         extrato += f"Depósito: R$ {valor:.2f}\n"
         print(
@@ -45,9 +43,6 @@ def Deposito(valor, saldo, extrato, /):
     else:
         print("Operação falhou! O valor informado é inválido.")
         return saldo, extrato
-
-
-
 
 
 def criarUsuario(**cliente):
@@ -98,13 +93,31 @@ def criarConta(agencia, numero_conta, pessoas):
 
 
 def vizualisar_contas(lista_contas):
-    for conta in lista_contas:
+    tamanhoLista = len(lista_contas)
+    # print(tamanhoLista)
+    if tamanhoLista == 0:
+        print('n tem conta ainda')
+    else:
+        for conta in lista_contas:
+            print(
+                f"Agência: {conta['agencia']}, Numero da conta: {conta['numero_conta']}, Usuário: {conta['usuario']['nome']}")
+
+
+def exibirUsuarioFiltrado(cpf):
+    pessoasFiltradas = [pessoa for pessoa in pessoas if pessoa['cpf'] == cpf]
+    print(exibirUsuariosFormatados(pessoasFiltradas))
+
+
+def exibirUsuariosFormatados(lista_pessoas):
+    for i, pessoa in enumerate(lista_pessoas):
+        num_cliente = i+1
         print(
-            f"Agência: {conta['agencia']}, Numero da conta: {conta['numero_conta']}, Usuário: {conta['usuario']['nome']}")
+            f"Nome: {pessoa['nome']}, CPF: {pessoa['cpf']}, Data de nascimento: {pessoa['data_nascimento']}, Endereço: {pessoa['endereco']}")
 
 
 contas = []
 pessoas = []
+
 
 def main():
 
@@ -116,6 +129,7 @@ def main():
 [t] Criar conta corrente
 [v] Visualizar usuários
 [h] Visualizar contas corrente 
+[f] Filtrar usuários
 [q] Sair
 
 => """
@@ -147,6 +161,7 @@ def main():
             endereco = str(input("Informe o endereço do novo usuário: "))
             verificaCpf = [pessoa for pessoa in pessoas
                            if cpf == pessoa['cpf']]
+            # pessoas.filter(e => e.cpf == cpf)
             # print(verificaCpf)
 
             if verificaCpf == []:
@@ -164,6 +179,15 @@ def main():
             numero_conta = numero_conta + 1
         elif opcao == 'h':
             vizualisar_contas(contas)
+        elif opcao == 'f':
+            if len(pessoas) == 0:
+                print('Não existem usuários cadastrados.')
+            else:
+                print(f'Usuários cadastrados:')
+                exibirUsuariosFormatados(pessoas)
+                cpf = str(input('Digite o CPF da pessoa que deseja encontrar: '))
+                exibirUsuarioFiltrado(cpf)
+
         else:
             print("Operação inválida, por favor selecione novamente a operação desejada.")
 

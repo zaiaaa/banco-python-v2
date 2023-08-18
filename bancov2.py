@@ -1,6 +1,13 @@
 # função saque = keyword only
 # função depósito = positional only
 # função extrato = hibrid only
+import datetime
+hora_atual = datetime.datetime.now().time()
+# print("Hora atual:", hora_atual)
+hora_formatada = hora_atual.strftime("%H:%M")
+# print("Hora formatada:", hora_formatada)
+
+
 def Saque(*, saldo, valor, numero_saques, extrato, limite, limite_saques):
     excedeu_saldo = valor > saldo
 
@@ -23,7 +30,7 @@ def Saque(*, saldo, valor, numero_saques, extrato, limite, limite_saques):
 
     elif valor > 0:
         saldo -= valor
-        extrato += f"Saque: R$ {valor:.2f}\n"
+        extrato += f"Saque: R$ {valor:.2f}, às {hora_formatada}\n"
         numero_saques += 1
         print(f"Saque de {valor:.2f}R$ realizado com sucesso!")
         return saldo, extrato, numero_saques
@@ -34,7 +41,7 @@ def Saque(*, saldo, valor, numero_saques, extrato, limite, limite_saques):
 def Deposito(valor, saldo, extrato, /):
     if valor > 0:
         novoSaldo = saldo + valor
-        extrato += f"Depósito: R$ {valor:.2f}\n"
+        extrato += f"Depósito: R$ {valor:.2f}, às {hora_formatada}\n"
         print(
             f'Depósito de {valor:.2f}R$ realizado com sucesso! (Saldo: {novoSaldo})')
 
@@ -86,7 +93,7 @@ def criarConta(agencia, numero_conta, pessoas):
     if pessoa:
         contas.append(
             {"agencia": agencia, "numero_conta": numero_conta, "usuario": pessoa})
-        print(contas)
+        # print(contas)
         print("Conta criada com sucesso!")
     else:
         print('Usuário não encontrado.')
@@ -166,7 +173,7 @@ def main():
             nome = str(input("Informe o nome do novo usuário: "))
             cpf = str(input("Informe o CPF do novo usuário: "))
             data_nasc = str(
-                input("Informe a data de nascimento do novo usuário: "))
+                input("Informe a data de nascimento do novo usuário (dd/mm/yyyy): "))
             endereco = str(input("Informe o endereço do novo usuário: "))
             verificaCpf = [pessoa for pessoa in pessoas
                            if cpf == pessoa['cpf']]
@@ -195,6 +202,7 @@ def main():
                 print(f'Usuários cadastrados:')
                 print(exibirUsuariosFormatados(pessoas))
                 cpf = str(input('Digite o CPF da pessoa que deseja encontrar: '))
+                print('\n')
                 exibirUsuarioFiltrado(cpf)
 
         else:
